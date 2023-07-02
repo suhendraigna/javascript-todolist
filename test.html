@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+  </head>
+  <body>
+    <form id="todoForm">
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <label for="todo">Todo:</label>
+            </td>
+            <td><input type="text" id="todo" name="todo" required /></td>
+            <td><input type="submit" value="Add" /></td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+    <br />
+    <h1>Todo List</h1>
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <label for="filter">Filter:</label>
+          </td>
+          <td>
+            <input type="text" id="filter" name="filter" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+    <table>
+      <tbody id="table-item-body"></tbody>
+    </table>
+    <script>
+      const addTodo = document.getElementById("todoForm");
+      addTodo.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const itemId = createItemId();
+
+        const tableBody = document.getElementById("table-item-body");
+        const newTableRow = document.createElement("tr");
+
+        const tableDataBtn = document.createElement("td");
+        const newDoneBtn = createDoneBtn();
+
+        const tableDataItem = document.createElement("td");
+        tableDataItem.innerText = document.getElementById("todo").value;
+
+        tableBody.appendChild(newTableRow);
+        newTableRow.appendChild(tableDataBtn);
+        tableDataBtn.appendChild(newDoneBtn);
+        newTableRow.appendChild(tableDataItem);
+        addTodo.reset();
+        doneClick(itemId);
+      });
+
+      function createItemId() {
+        tableRow = document.getElementById("table-item-body").childNodes;
+        totalListData = tableRow.length;
+
+        return totalListData + 1;
+      }
+
+      function createDoneBtn() {
+        const itemId = createItemId();
+
+        const doneButton = document.createElement("button");
+        doneButton.id = itemId;
+        doneButton.className = "done-btn";
+        doneButton.innerText = "Done";
+
+        return doneButton;
+      }
+
+      function doneClick(itemId) {
+        const buttons = document.querySelectorAll(".done-btn");
+        for (button of buttons) {
+          button.addEventListener("click", function () {
+            const item = document.getElementById(itemId);
+            const td = item.parentElement;
+            td.parentElement.remove();
+          });
+        }
+      }
+    </script>
+  </body>
+</html>
